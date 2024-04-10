@@ -19,6 +19,8 @@ export const DefaultValidationMessages = {
 
   MaxLength: (field: string, limitLabel: number) => `${ field }: O limite de caracteres é ${ limitLabel }`,
 
+  MinLength: (field: string, limitLabel: number) => `${ field }: O mínimo de caracteres é ${ limitLabel }`,
+
   IsEnum: (field: string, enumLabel: string) => (
     `${ field }: É necessário enviar um enum válido - ${ enumLabel }`
   ),

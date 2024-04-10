@@ -32,6 +32,8 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/typeorm": "^10.0.2",
+    "@rewiko/crud": "^5.1.12",
+    "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
