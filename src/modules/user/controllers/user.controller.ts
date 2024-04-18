@@ -48,7 +48,7 @@ export class UserController {
   @ApiOkResponse({ description: 'Get info about user logged.', type: UserProxy })
   @ApiOperation({ summary: 'Returns info about user logged.' })
   public async getMe(@User() requestUser: UserSessionModel): Promise<UserProxy> {
-    return await this.service.getMe(requestUser).then(response => new UserProxy(response));;
+    return await this.service.getMe(requestUser).then(response => new UserProxy(response));
   }
 
   @Get(':id')
@@ -59,7 +59,7 @@ export class UserController {
     @Param('id') entityId: number,
     @ParsedRequest() crudRequest: CrudRequest,
   ): Promise<UserProxy> {
-    return await this.service.getOne(+entityId, crudRequest).then(response => new UserProxy(response));
+    return await this.service.getOne(+entityId, crudRequest).then(response => response.toProxy());
   }
 
   @Post()
@@ -79,7 +79,8 @@ export class UserController {
     @Param('id') entityId: number,
     @Body() payload: UpdateUserPayload,
   ): Promise<UserProxy> {
-    return await this.service.updateOne(requestUser, +entityId, payload).then(response => new UserProxy(response));
+    return await this.service.updateOne(requestUser, +entityId, payload)
+      .then(response => new UserProxy(response));
   }
 
   //#endregion

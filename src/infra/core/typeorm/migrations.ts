@@ -1,6 +1,6 @@
 import { Type } from '@nestjs/common';
-import { AddUserEntity1711915220444 } from '../../database/migrations/1711915220444-AddUserEntity';
+import { AddUserEntity1713395271507 } from '../../database/migrations/1713395271507-AddUserEntity';
 
 export const TypeormMigrations: Type[] = [
-  AddUserEntity1711915220444,
+  AddUserEntity1713395271507,
 ];

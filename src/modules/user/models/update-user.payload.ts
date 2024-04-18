@@ -1,7 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { BaseCrudCreatePayload } from '../../../common/payloads/base-crud-create.payload';
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { DefaultValidationMessages } from '../../../common/messages/default-validation-messages';
+import { RolesEnum } from '../../auth/models/roles.enum';
 
 export class UpdateUserPayload extends BaseCrudCreatePayload {
 
@@ -10,6 +11,11 @@ export class UpdateUserPayload extends BaseCrudCreatePayload {
   @IsString({ message: DefaultValidationMessages.IsString('name') })
   @MaxLength(128, { message: DefaultValidationMessages.MaxLength('nome', 128) })
   public name?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsEnum(RolesEnum, { message: DefaultValidationMessages.IsEnum('role', 'RolesEnum') })
+  public role?: RolesEnum;
 
   @ApiPropertyOptional()
   @IsOptional()

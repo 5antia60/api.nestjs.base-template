@@ -87,8 +87,8 @@ export class UserService {
   ): Promise<UserEntity> {
     return new UserEntity({
       ...!isNullOrUndefined(id) && { id },
-      ...!isNullOrUndefined(payload.isActive) && { isActive: payload.isActive },
       ...!isNullOrUndefined(payload.name) && { name: payload.name },
+      ...!isNullOrUndefined(payload.role) && { role: payload.role },
       ...!isNullOrUndefined(payload.email) && { email: payload.email },
       ...!isNullOrUndefined(payload.imageUrl) && { imageUrl: payload.imageUrl },
     });
