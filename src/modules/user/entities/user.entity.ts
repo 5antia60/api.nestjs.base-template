@@ -2,8 +2,8 @@
 
 import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../../common/crud/base-entity';
-import { RolesEnum } from 'src/modules/auth/models/roles.enum';
 import { UserProxy } from '../models/user.proxy';
+import { RolesEnum } from '../models/roles.enum';
 
 //#endregion
 
@@ -25,19 +25,19 @@ export class UserEntity extends BaseEntity<UserEntity> {
   //#region Columns
 
   @Column({ nullable: false, length: 128 })
-  public name: string;
+  public name!: string;
 
   @Column({ nullable: false, length: 128 })
-  public role: RolesEnum;
+  public role!: RolesEnum;
 
   @Column({ nullable: false, length: 256 })
-  public email: string;
+  public email!: string;
 
   @Column({ nullable: true, length: 1024 })
   public imageUrl?: string;
 
   @Column({ nullable: false })
-  public password: string;
+  public password!: string;
 
   //#endregion
 

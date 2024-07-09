@@ -1,7 +1,7 @@
-import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import 'reflect-metadata';
 
 async function bootstrap() {
@@ -9,14 +9,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      exceptionFactory: (errors) => {
-        const result = errors.map((error) => ({
-          property: error.property,
-          message: error.constraints[Object.keys(error.constraints)[0]],
-        }));
-        return new BadRequestException(result);
-      },
-      stopAtFirstError: true,
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
     }),
   );
 

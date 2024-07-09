@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { BaseCrudCreatePayload } from '../../../common/payloads/base-crud-create.payload';
 import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { DefaultValidationMessages } from '../../../common/messages/default-validation-messages';
-import { RolesEnum } from '../../auth/models/roles.enum';
+import { RolesEnum } from './roles.enum';
 
 export class UpdateUserPayload extends BaseCrudCreatePayload {
 

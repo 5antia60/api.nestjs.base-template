@@ -1,34 +1,29 @@
 //#region Imports
 
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors
+} from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudRequest, ParsedRequest } from '@rewiko/crud';
-import { UserEntity } from '../entities/user.entity';
-import { UserSessionModel } from 'src/modules/auth/models/user-session.model';
+import { CrudRequest, ParsedRequest } from '@rewiko/crud';
 import { UserProxy } from '../models/user.proxy';
-import { User } from 'src/modules/auth/decorators/user.decorator';
 import { CreateUserPayload } from '../models/create-user.payload';
 import { UpdateUserPayload } from '../models/update-user.payload';
+import { UserSessionModel } from '../models/user-session.model';
+import { User } from '../../../infra/core/authorization/decorators/user/user.decorator';
+import { ProtectTo } from '../../../infra/core/authorization/decorators/protect/protect.decorator';
+import { RolesEnum } from '../models/roles.enum';
 
 //#endregion
 
 @ApiBearerAuth()
-@Crud({
-  model: {
-    type: UserEntity,
-  },
-  query: {
-    exclude: ['password'],
-  },
-  routes: {
-    exclude: [
-      'updateOneBase',
-      'createManyBase',
-      'deleteOneBase',
-    ],
-  },
-})
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('users')
 @Controller('users')
@@ -42,9 +37,10 @@ export class UserController {
 
   //#endregion
 
-  //#region Methods
+  //#region Public Methods
 
   @Get('me')
+  @ProtectTo(RolesEnum.DEFAULT, RolesEnum.VETERINARIAN)
   @ApiOkResponse({ description: 'Get info about user logged.', type: UserProxy })
   @ApiOperation({ summary: 'Returns info about user logged.' })
   public async getMe(@User() requestUser: UserSessionModel): Promise<UserProxy> {
@@ -52,6 +48,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @ProtectTo(RolesEnum.DEFAULT, RolesEnum.VETERINARIAN)
   @ApiOkResponse({ description: 'Get info about one user.', type: UserProxy })
   @ApiOperation({ summary: 'Returns info about one user.' })
   public async getOne(
@@ -63,6 +60,7 @@ export class UserController {
   }
 
   @Post()
+  @ProtectTo(RolesEnum.DEFAULT, RolesEnum.VETERINARIAN)
   @ApiOkResponse({ description: 'Create new user.', type: UserProxy })
   @ApiOperation({ summary: 'Create and returns info about new user.' })
   public async createOne(
@@ -72,6 +70,7 @@ export class UserController {
   }
 
   @Put(':id')
+  @ProtectTo(RolesEnum.DEFAULT, RolesEnum.VETERINARIAN)
   @ApiOkResponse({ description: 'Create new user.', type: UserProxy })
   @ApiOperation({ summary: 'Create and returns info about new user.' })
   public async replaceOne(

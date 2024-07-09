@@ -1,10 +1,10 @@
 //#region Imports
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { RolesEnum } from '../../auth/models/roles.enum';
 import { UserEntity } from '../entities/user.entity';
 import { BaseProxy } from '../../../common/crud/base.proxy';
 import { GetManyDefaultResponseProxy } from '../../../common/proxies/get-many-default-response.proxy';
+import { RolesEnum } from './roles.enum';
 
 //#endregion
 

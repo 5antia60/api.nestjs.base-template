@@ -5,10 +5,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { createFindWhereFilter, CrudRequestTyped } from 'src/infra/libs/nestjsx-crud/@types/nestjsx-crud';
-import { UserSessionModel } from 'src/modules/auth/models/user-session.model';
 import { CreateUserPayload } from '../models/create-user.payload';
 import { UpdateUserPayload } from '../models/update-user.payload';
 import { isNullOrUndefined } from 'src/utils/functions';
+import { UserSessionModel } from '../models/user-session.model';
 import * as bcryptjs from 'bcryptjs';
 
 //#endregion
@@ -28,7 +28,12 @@ export class UserService {
   //#region Public Methods
 
   public async getMe(requestUser: UserSessionModel): Promise<UserEntity> {
-    return await this.repository.findOneBy({ id: requestUser.id });
+    const user = await this.repository.findOneBy({ id: requestUser.id });
+
+    if (!user)
+      throw new NotFoundException('O usuário não foi encontrado.');
+
+    return user;
   }
 
   public async getOne(entityId: number, crudRequest?: CrudRequestTyped<UserEntity>): Promise<UserEntity> {

@@ -1,8 +1,7 @@
 import { RolesEnum } from './roles.enum';
 
-export interface IJwtPayload {
-
+export interface UserSessionModel {
   id: number;
-  name: string;
+  email: string;
   role: RolesEnum;
 }

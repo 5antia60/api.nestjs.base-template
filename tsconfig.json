@@ -1,23 +1,40 @@
 {
   "compilerOptions": {
+    "lib": [
+      "ES2021",
+      "DOM"
+    ],
+    "target": "ES2021",
+    "moduleResolution": "node",
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "removeComments": true,
+    "sourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": "./src",
     "baseUrl": "./",
-    "incremental": false,
+    "incremental": true,
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strict": false,
     "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "noEmit": true
-  }
+    "strictNullChecks": true,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": false,
+    "alwaysStrict": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
