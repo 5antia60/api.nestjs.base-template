@@ -47,6 +47,17 @@ export class UserController {
     return await this.service.getMe(requestUser).then(response => new UserProxy(response));
   }
 
+  @Get()
+  @ProtectTo(RolesEnum.DEFAULT)
+  @ApiOkResponse({ description: 'Get info about many users.', type: UserProxy })
+  @ApiOperation({ summary: 'Returns info about many users.' })
+  public async listMany(
+    @ParsedRequest() crudRequest: CrudRequest,
+  ): Promise<UserProxy[]> {
+    return await this.service.listMany(crudRequest)
+      .then(response => response.map(entity => entity.toProxy()));
+  }
+
   @Get(':id')
   @ProtectTo(RolesEnum.DEFAULT, RolesEnum.VETERINARIAN)
   @ApiOkResponse({ description: 'Get info about one user.', type: UserProxy })

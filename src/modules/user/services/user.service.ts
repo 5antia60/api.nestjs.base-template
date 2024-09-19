@@ -36,6 +36,12 @@ export class UserService {
     return user;
   }
 
+  public async listMany(crudRequest?: CrudRequestTyped<UserEntity>): Promise<UserEntity[]> {
+    return await this.repository.find({
+      ...crudRequest && createFindWhereFilter<UserEntity>(crudRequest),
+    });
+  }
+
   public async getOne(entityId: number, crudRequest?: CrudRequestTyped<UserEntity>): Promise<UserEntity> {
     const entity = await this.repository.findOneBy({
       ...crudRequest && createFindWhereFilter<UserEntity>(crudRequest),
