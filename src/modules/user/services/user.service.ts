@@ -1,7 +1,6 @@
 //#region Imports
 
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { createFindWhereFilter, CrudRequestTyped } from 'src/infra/libs/nestjsx-crud/@types/nestjsx-crud';
@@ -9,6 +8,7 @@ import { CreateUserPayload } from '../models/create-user.payload';
 import { UpdateUserPayload } from '../models/update-user.payload';
 import { isNullOrUndefined } from 'src/utils/functions';
 import { UserSessionModel } from '../models/user-session.model';
+import { UserRepository } from '../repositories/user.repository';
 import * as bcryptjs from 'bcryptjs';
 
 //#endregion
@@ -19,8 +19,7 @@ export class UserService {
   //#region Constructor
 
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly repository: Repository<UserEntity>,
+    private readonly repository: UserRepository,
   ) {}
 
   //#endregion
@@ -50,7 +49,7 @@ export class UserService {
 
     if (!entity)
       throw new NotFoundException(`O usuário não foi encontrado.`);
-    
+
     return entity;
   }
 
@@ -107,7 +106,7 @@ export class UserService {
 
   private async encryptPassword(plainPassword: string): Promise<string> {
     const salt = await bcryptjs.genSalt();
-  
+
     return await bcryptjs.hash(plainPassword, salt);
   }
 
