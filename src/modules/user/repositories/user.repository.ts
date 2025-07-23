@@ -1,7 +1,7 @@
 //#region Imports
 
-import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 
 //#endregion
