@@ -6,16 +6,16 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class GetManyDefaultResponseProxy {
 
-  @ApiProperty()
-  public count!: number;
+  @ApiProperty({ type: () => Number })
+  public itemsPerPage!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Number })
   public total!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Number })
   public page!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Number })
   public pageCount!: number;
 
 }

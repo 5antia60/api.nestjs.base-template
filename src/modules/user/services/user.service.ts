@@ -1,13 +1,15 @@
 //#region Imports
 
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { GetPaginationQuery } from '../../../common/payloads/get-pagination.query';
+import { getPaginationProps } from '../../../common/utils/getPaginationProps';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
-import { createFindWhereFilter, CrudRequestTyped } from 'src/infra/libs/nestjsx-crud/@types/nestjsx-crud';
 import { CreateUserPayload } from '../models/create-user.payload';
 import { UpdateUserPayload } from '../models/update-user.payload';
 import { isNullOrUndefined } from 'src/utils/functions';
 import { UserSessionModel } from '../models/user-session.model';
+import { GetManyDefaultResponseUserProxy } from '../models/user.proxy';
 import { UserRepository } from '../repositories/user.repository';
 import * as bcryptjs from 'bcryptjs';
 
@@ -35,15 +37,28 @@ export class UserService {
     return user;
   }
 
-  public async listMany(crudRequest?: CrudRequestTyped<UserEntity>): Promise<UserEntity[]> {
-    return await this.repository.find({
-      ...crudRequest && createFindWhereFilter<UserEntity>(crudRequest),
+  public async listMany(paginationArgs?: GetPaginationQuery): Promise<GetManyDefaultResponseUserProxy> {
+    const pagination = {
+      page: paginationArgs?.page || 0,
+      itemsPerPage: paginationArgs?.itemsPerPage || 5,
+    };
+
+    const paginationProps = getPaginationProps(pagination);
+    const [result, total] = await this.repository.findAndCount({
+      ...paginationProps,
     });
+
+    return {
+      data: result.map(entity => entity.toProxy()),
+      pageCount: Math.ceil(total / pagination.itemsPerPage),
+      page: pagination.page,
+      itemsPerPage: pagination.itemsPerPage,
+      total,
+    };
   }
 
-  public async getOne(entityId: number, crudRequest?: CrudRequestTyped<UserEntity>): Promise<UserEntity> {
+  public async getOne(entityId: number): Promise<UserEntity> {
     const entity = await this.repository.findOneBy({
-      ...crudRequest && createFindWhereFilter<UserEntity>(crudRequest),
       id: entityId,
     });
 

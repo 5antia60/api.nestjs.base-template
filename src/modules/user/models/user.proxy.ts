@@ -21,16 +21,16 @@ export class UserProxy extends BaseProxy<UserEntity> {
 
   //#region Public Properties
 
-  @ApiProperty()
+  @ApiProperty({ type: () => String })
   public name: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => String, enum: RolesEnum })
   public role: RolesEnum;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => String })
   public email: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => String })
   public imageUrl?: string;
 
   //#endregion

@@ -8,13 +8,13 @@ import { DefaultValidationMessages } from '../../../common/messages/default-vali
 
 export class LoginPayload {
 
-  @ApiProperty()
+  @ApiProperty({ type: () => String })
   @IsDefined({ message: 'É necessário enviar o e-mail do usuário.' })
   @IsString({ message: DefaultValidationMessages.IsString('E-mail') })
   @IsEmail({}, { message: DefaultValidationMessages.IsEmail('E-mail') })
   public email!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => String })
   @IsDefined({ message: 'É necessário enviar a senha do usuário.' })
   @IsString({ message: DefaultValidationMessages.IsString('Senha') })
   @MinLength(6, { message: 'A senha precisa ter no mínimo 6 caracteres.' })

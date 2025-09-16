@@ -19,8 +19,6 @@ async function bootstrap() {
     .setTitle('Santiago | Base template')
     .setDescription('Santiago\' base template API')
     .setVersion('1.0')
-    .addTag('BT')
-    .addServer('/', 'Local')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);

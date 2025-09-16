@@ -1,6 +1,3 @@
-/**
- * Mensagens de retorno para validações
- */
 export const DefaultValidationMessages = {
 
   IsBoolean: (field: string) => `${ field }: É necessário enviar um valor booleano válido.`,

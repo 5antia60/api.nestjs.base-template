@@ -20,16 +20,16 @@ export class BaseProxy<T extends BaseEntity<T>> {
 
   //#region Public Properties
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Number })
   public id!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Date })
   public createdAt?: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Date })
   public updatedAt?: Date;
 
-  @ApiProperty({ default: true })
+  @ApiProperty({ type: () => Boolean, default: true })
   public isActive?: boolean;
 
   //#endregion

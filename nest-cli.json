@@ -4,6 +4,15 @@
   "sourceRoot": "src",
   "entryFile": "main",
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": true,
+          "dtoFileNameSuffix": [".query.ts"]
+        }
+      }
+    ],
     "deleteOutDir": true,
     "watchAssets": true
   }

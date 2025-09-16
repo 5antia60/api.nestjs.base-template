@@ -7,13 +7,13 @@ import {
   Get,
   Param,
   Post,
-  Put,
-  UseInterceptors
+  Put, Query,
+  UseInterceptors,
 } from '@nestjs/common';
+import { GetPaginationQuery } from '../../../common/payloads/get-pagination.query';
 import { UserService } from '../services/user.service';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CrudRequest, ParsedRequest } from '@rewiko/crud';
-import { UserProxy } from '../models/user.proxy';
+import { GetManyDefaultResponseUserProxy, UserProxy } from '../models/user.proxy';
 import { CreateUserPayload } from '../models/create-user.payload';
 import { UpdateUserPayload } from '../models/update-user.payload';
 import { UserSessionModel } from '../models/user-session.model';
@@ -51,11 +51,8 @@ export class UserController {
   @ProtectTo(RolesEnum.DEFAULT)
   @ApiOkResponse({ description: 'Get info about many users.', type: UserProxy })
   @ApiOperation({ summary: 'Returns info about many users.' })
-  public async listMany(
-    @ParsedRequest() crudRequest: CrudRequest,
-  ): Promise<UserProxy[]> {
-    return await this.service.listMany(crudRequest)
-      .then(response => response.map(entity => entity.toProxy()));
+  public async listMany(@Query() getPaginationPayload: GetPaginationQuery): Promise<GetManyDefaultResponseUserProxy> {
+    return await this.service.listMany(getPaginationPayload);
   }
 
   @Get(':id')
@@ -65,9 +62,8 @@ export class UserController {
   public async getOne(
     @User() requestUser: UserSessionModel,
     @Param('id') entityId: number,
-    @ParsedRequest() crudRequest: CrudRequest,
   ): Promise<UserProxy> {
-    return await this.service.getOne(+entityId, crudRequest).then(response => response.toProxy());
+    return await this.service.getOne(+entityId).then(response => response.toProxy());
   }
 
   @Post()

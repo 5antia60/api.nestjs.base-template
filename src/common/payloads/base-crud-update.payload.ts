@@ -6,12 +6,9 @@ import { DefaultValidationMessages } from '../messages/default-validation-messag
 
 //#endregion
 
-/**
- * Propriedades básicas para um de um payload de atualização
- */
 export class BaseCrudUpdatePayload {
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => Boolean })
   @IsOptional()
   @IsBoolean({ message: DefaultValidationMessages.IsBoolean('isActive') })
   public isActive?: boolean;

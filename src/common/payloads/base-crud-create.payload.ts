@@ -6,15 +6,9 @@ import { DefaultValidationMessages } from '../messages/default-validation-messag
 
 //#endregion
 
-/**
- * Propriedades básicas para um de um payload de criação
- */
 export class BaseCrudCreatePayload {
 
-  /**
-   * Diz se deve ativar a entidade assim que criar
-   */
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => Boolean })
   @IsOptional()
   @IsBoolean({ message: DefaultValidationMessages.IsBoolean('isActive') })
   public isActive?: boolean;
