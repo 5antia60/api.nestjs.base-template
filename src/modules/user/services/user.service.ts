@@ -2,7 +2,7 @@
 
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { GetPaginationQuery } from '../../../common/payloads/get-pagination.query';
-import { getPaginationProps } from '../../../common/utils/getPaginationProps';
+import { getTypeormPaginationProps } from '../../../common/utils/get-typeorm-pagination.props';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserPayload } from '../models/create-user.payload';
@@ -43,18 +43,18 @@ export class UserService {
       itemsPerPage: paginationArgs?.itemsPerPage || 5,
     };
 
-    const paginationProps = getPaginationProps(pagination);
+    const paginationProps = getTypeormPaginationProps(pagination);
     const [result, total] = await this.repository.findAndCount({
       ...paginationProps,
     });
 
-    return {
+    return new GetManyDefaultResponseUserProxy({
       data: result.map(entity => entity.toProxy()),
       pageCount: Math.ceil(total / pagination.itemsPerPage),
-      page: pagination.page,
       itemsPerPage: pagination.itemsPerPage,
+      page: pagination.page,
       total,
-    };
+    });
   }
 
   public async getOne(entityId: number): Promise<UserEntity> {

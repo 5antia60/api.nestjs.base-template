@@ -38,6 +38,13 @@ export class UserProxy extends BaseProxy<UserEntity> {
 
 export class GetManyDefaultResponseUserProxy extends GetManyDefaultResponseProxy {
 
+  constructor(
+    data: GetManyDefaultResponseUserProxy,
+  ) {
+    super(data);
+    this.data = data.data;
+  }
+
   @ApiProperty({ type: () => UserProxy, isArray: true })
   data!: UserProxy[];
 
