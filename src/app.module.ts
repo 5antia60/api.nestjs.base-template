@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CategoryModule } from './modules/category/category.module';
 import { UserModule } from './modules/user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,8 +20,9 @@ import { AuthModule } from './modules/auth/auth.module';
       }),
       inject: [ConfigService],
     }),
-    UserModule,
     AuthModule,
+    UserModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}
