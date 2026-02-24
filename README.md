@@ -65,7 +65,7 @@ $ docker compose up --build --detach
 ```
 
 ## Generate new migration
-
+The migration is generated based on the entities inserted in entities.ts
 ```bash
 $ npm run migration:generate --name=MigrationName
 ```
