@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CategoryModule } from './modules/category/category.module';
 import { UserModule } from './modules/user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -19,6 +20,9 @@ import { AuthModule } from './modules/auth/auth.module';
         ...configService.get('database'),
       }),
       inject: [ConfigService],
+    }),
+    EventEmitterModule.forRoot({
+      ignoreErrors: false,
     }),
     AuthModule,
     UserModule,

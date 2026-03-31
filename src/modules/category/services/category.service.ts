@@ -1,9 +1,11 @@
 //#region Imports
 
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { GetPaginationQuery } from '../../../common/payloads/get-pagination.query';
 import { getTypeormPaginationProps } from '../../../common/utils/get-typeorm-pagination.props';
 import { UserSessionModel } from '../../user/models/user-session.model';
+import { CategoryEventsEnum } from '../models/category-events.enum';
 import { CategoryEntity } from '../entities/category.entity';
 import { CreateCategoryPayload } from '../models/create-category.payload';
 import { UpdateCategoryPayload } from '../models/update-category.payload';
@@ -20,6 +22,7 @@ export class CategoryService {
 
   constructor(
     private readonly repository: CategoryRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   //#endregion
@@ -62,7 +65,14 @@ export class CategoryService {
       await this.getEntityFromPayload(payload)
     );
 
-    return await this.repository.save(newEntity);
+    const savedEntity = await this.repository.save(newEntity);
+
+    this.eventEmitter.emit(CategoryEventsEnum.CREATED, {
+      categoryId: savedEntity.id,
+      title: savedEntity.title,
+    });
+
+    return savedEntity;
   }
 
   public async updateOne(
